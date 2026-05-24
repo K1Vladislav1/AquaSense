@@ -6,6 +6,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { api } from '@/lib/api';
 import type { WaterBody } from '@/types';
 
+const LAKE_PLACEHOLDER_IMAGE = '/images/lakes/Blue-Lake-Clipart.webp';
+
 const MapSelector = dynamic(
   () => import('./MapSelector').then((mod) => mod.MapSelector),
   {
@@ -21,6 +23,7 @@ const MapSelector = dynamic(
 export function WaterBodiesExplorer() {
   const [waterBodies, setWaterBodies] = useState<WaterBody[]>([]);
   const [selectedId, setSelectedId] = useState('');
+  const [selectionVersion, setSelectionVersion] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [search, setSearch] = useState('');
@@ -65,13 +68,12 @@ export function WaterBodiesExplorer() {
 
   const filteredWaterBodies = useMemo(() => {
     const query = search.trim().toLowerCase();
+    const source = query
+      ? waterBodies.filter((item) => item.name.toLowerCase().includes(query))
+      : waterBodies;
 
-    if (!query) {
-      return waterBodies;
-    }
-
-    return waterBodies.filter((item) =>
-      item.name.toLowerCase().includes(query),
+    return [...source].sort((a, b) =>
+      a.name.localeCompare(b.name, 'ru', { sensitivity: 'base' }),
     );
   }, [search, waterBodies]);
 
@@ -81,6 +83,7 @@ export function WaterBodiesExplorer() {
 
   const handleSelect = (id: string) => {
     setSelectedId(id);
+    setSelectionVersion((version) => version + 1);
 
     if (isMobile) {
       setIsSidebarOpen(false);
@@ -191,7 +194,7 @@ export function WaterBodiesExplorer() {
                   <div className="wb-lake-card__image-wrap">
                     <img
                       src={
-                        lake.imageUrl || '/images/lakes/Blue-Lake-Clipart.webp'
+                        lake.imageUrl || LAKE_PLACEHOLDER_IMAGE
                       }
                       alt={lake.name}
                       className="wb-lake-card__image"
@@ -246,6 +249,7 @@ export function WaterBodiesExplorer() {
           <MapSelector
             waterBodies={filteredWaterBodies}
             selectedId={selectedId}
+            selectionVersion={selectionVersion}
             onSelect={handleSelect}
             isSidebarOpen={isSidebarOpen}
           />
