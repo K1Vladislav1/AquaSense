@@ -4,7 +4,7 @@ import { authStorage } from './auth';
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL ||
-  'http://localhost:8000';
+  'https://lakes-backend-0zzs.onrender.com';
 //  'https://lakes-backend-iqu6.onrender.com';
 // 'https://lakes-backend-eadc.onrender.com';
 
