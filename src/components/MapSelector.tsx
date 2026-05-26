@@ -17,7 +17,7 @@ const DEFAULT_STYLE =
 const LAKE_PLACEHOLDER_IMAGE = '/images/lakes/Blue-Lake-Clipart.webp';
 
 const PETROPAVLOVSK = {
-  name: 'РџРµС‚СЂРѕРїР°РІР»РѕРІСЃРє',
+  name: 'Петропавловск',
   lng: 69.143,
   lat: 54.8739,
 };
@@ -184,20 +184,20 @@ export function MapSelector({
 
   const formatArea = (value?: number | null) => {
     if (value == null) {
-      return 'РќРµ СѓРєР°Р·Р°РЅР°';
+      return 'Не указана';
     }
 
     return `${(value / 100).toLocaleString('ru-RU', {
       maximumFractionDigits: 2,
-    })} РєРјВІ`;
+    })} км²`;
   };
 
   const formatDepth = (value?: number | null) => {
     if (value == null) {
-      return 'РќРµ СѓРєР°Р·Р°РЅР°';
+      return 'Не указана';
     }
 
-    return `${value} Рј`;
+    return `${value} м`;
   };
 
   const runWhenMapReady = (callback: (map: maplibregl.Map) => void) => {
@@ -256,22 +256,22 @@ export function MapSelector({
           <h4 class="wb-mini-card__title">${lake.name}</h4>
 
           <div class="wb-mini-card__row">
-            <span class="wb-mini-card__label">Р Р°Р№РѕРЅ:</span>
-            <span class="wb-mini-card__value">${lake.district || 'РќРµ СѓРєР°Р·Р°РЅ'}</span>
+            <span class="wb-mini-card__label">Район:</span>
+            <span class="wb-mini-card__value">${lake.district || 'Не указан'}</span>
           </div>
 
           <div class="wb-mini-card__row">
-            <span class="wb-mini-card__label">РџР»РѕС‰Р°РґСЊ:</span>
+            <span class="wb-mini-card__label">Площадь:</span>
             <span class="wb-mini-card__value">${formatArea(lake.passport?.area)}</span>
           </div>
 
           <div class="wb-mini-card__row">
-            <span class="wb-mini-card__label">Р“Р»СѓР±РёРЅР°:</span>
+            <span class="wb-mini-card__label">Глубина:</span>
             <span class="wb-mini-card__value">${formatDepth(lake.passport?.maxDepth)}</span>
           </div>
 
           <a class="wb-mini-card__button" href="/water-bodies/${lake.id}">
-            Р”Р°С€Р±РѕСЂРґ РІРѕРґРѕС‘РјР°
+            Дашборд водоёма
           </a>
         </div>
       </div>
@@ -285,7 +285,7 @@ export function MapSelector({
           <h4 class="wb-mini-card__title">${PETROPAVLOVSK.name}</h4>
 
           <div class="wb-mini-card__row">
-            <span class="wb-mini-card__label">РљРѕРѕСЂРґРёРЅР°С‚С‹:</span>
+            <span class="wb-mini-card__label">Координаты:</span>
             <span class="wb-mini-card__value">${PETROPAVLOVSK.lat}, ${PETROPAVLOVSK.lng}</span>
           </div>
         </div>
@@ -341,7 +341,7 @@ export function MapSelector({
     el.className = isSelected
       ? 'wb-map-pin wb-map-pin--active'
       : 'wb-map-pin';
-    el.setAttribute('aria-label', 'РњР°СЂРєРµСЂ РѕР·РµСЂР°');
+    el.setAttribute('aria-label', 'Маркер озера');
     return el;
   };
 
@@ -349,7 +349,7 @@ export function MapSelector({
     const el = document.createElement('button');
     el.type = 'button';
     el.className = 'wb-city-pin';
-    el.setAttribute('aria-label', 'РџРµС‚СЂРѕРїР°РІР»РѕРІСЃРє');
+    el.setAttribute('aria-label', 'Петропавловск');
     return el;
   };
 
